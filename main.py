@@ -14,14 +14,18 @@ pybullet.planeId = pybullet.loadURDF("plane.urdf")
 startPos = [0,0,1]
 startOrientation = pybullet.getQuaternionFromEuler([0,0,0])
 
-for velocity in range(5):
+# Goal velocities of ramp
+velocities = [0,2,4,8,10]
+
+for velocity in velocities:
 	# Different motion
 	simulationStart = time.time();
-	for repeat in range(5):
+	for i in range(5):
 		# Set up simulation
 		deltaTime = time.time()
-		lastPos = [startPos]
+		lastPos = startPos
 		cubeId = pybullet.loadURDF("physics_block.urdf", startPos, startOrientation)
+		pybullet.applyExternalForce(cubeId, -1, (velocity, 0, 0), (0,0,1), pybullet.WORLD_FRAME);
 
 		# Actually simulate
 		for step in range(1000):
@@ -29,5 +33,8 @@ for velocity in range(5):
 			cubePos, cubeOrn = pybullet.getBasePositionAndOrientation(cubeId)
 			
 			time.sleep(1./100.)
+		
+		pybullet.removeBody(cubeId)
+		print("Finished simulation for 1")
 
 pybullet.disconnect()
