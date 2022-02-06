@@ -4,6 +4,7 @@ from re import L
 import pybullet
 import time
 import pybullet_data
+import random
 
 tick = 0
 
@@ -25,7 +26,7 @@ for velocity in velocities:
 		deltaTime = time.time()
 		lastPos = startPos
 		cubeId = pybullet.loadURDF("physics_block.urdf", startPos, startOrientation)
-		pybullet.applyExternalForce(cubeId, -1, (velocity, 0, 0), startPos, pybullet.WORLD_FRAME);
+		pybullet.applyExternalForce(cubeId, -1, (velocity + (random.randint(0, 500)/1000), 0, 0), startPos, pybullet.WORLD_FRAME);
 
 		# Actually simulate
 		for step in range(1000):
