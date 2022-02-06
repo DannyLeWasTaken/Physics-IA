@@ -13,7 +13,6 @@ pybullet.setGravity(0,0,-9.81)
 pybullet.planeId = pybullet.loadURDF("plane.urdf")
 startPos = [0,0,1]
 startOrientation = pybullet.getQuaternionFromEuler([0,0,0])
-boxId = pybullet.loadURDF("physics_block.urdf", startPos, startOrientation)
 
 for velocity in range(5):
 	# Different motion
@@ -21,19 +20,14 @@ for velocity in range(5):
 	for repeat in range(5):
 		# Set up simulation
 		deltaTime = time.time()
-
-		boxId = pybullet.loadURDF("physics_block.urdf", startPos, startOrientation)
+		lastPos = [startPos]
+		cubeId = pybullet.loadURDF("physics_block.urdf", startPos, startOrientation)
 
 		# Actually simulate
 		for step in range(1000):
 			deltaTime = time.time() - deltaTime
+			cubePos, cubeOrn = pybullet.getBasePositionAndOrientation(cubeId)
+			
 			time.sleep(1./100.)
 
-
-for i in range(10000):
-	pybullet.stepSimulation()
-	time.sleep(1./100.)
-
-cubePos, cubeOrn = pybullet.getBasePositionAndOrientation(boxId)
-print(cubePos, cubeOrn)
 pybullet.disconnect()
