@@ -15,13 +15,12 @@ startPos = [0,0,1]
 startOrientation = pybullet.getQuaternionFromEuler([0,0,0])
 boxId = pybullet.loadURDF("r2d2.urdf", startPos, startOrientation)
 
-pybullet.setRealTimeSimulation(1)
 
-"""
 for i in range(10000):
 	pybullet.stepSimulation()
-	a = time.sleep(1./960.)
-"""
+	tick += 1./960.;
+	time.sleep(1./960.)
+
 
 cubePos, cubeOrn = pybullet.getBasePositionAndOrientation(boxId)
 print(cubePos, cubeOrn)
