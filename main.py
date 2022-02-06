@@ -15,17 +15,24 @@ startPos = [0,0,1]
 startOrientation = pybullet.getQuaternionFromEuler([0,0,0])
 boxId = pybullet.loadURDF("physics_block.urdf", startPos, startOrientation)
 
-for x in range(5):
+for velocity in range(5):
 	# Different motion
-	for y in range(5):
-		# Different mass of object
-		tick = 0
+	simulationStart = time.time();
+	for repeat in range(5):
+		# Set up simulation
+		deltaTime = time.time()
+
+		boxId = pybullet.loadURDF("physics_block.urdf", startPos, startOrientation)
+
+		# Actually simulate
+		for step in range(1000):
+			deltaTime = time.time() - deltaTime
+			time.sleep(1./100.)
 
 
 for i in range(10000):
 	pybullet.stepSimulation()
-	tick += 1./960.;
-	time.sleep(1./960.)
+	time.sleep(1./100.)
 
 cubePos, cubeOrn = pybullet.getBasePositionAndOrientation(boxId)
 print(cubePos, cubeOrn)
