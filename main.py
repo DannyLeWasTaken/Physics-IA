@@ -15,6 +15,12 @@ startPos = [0,0,1]
 startOrientation = pybullet.getQuaternionFromEuler([0,0,0])
 boxId = pybullet.loadURDF("physics_block.urdf", startPos, startOrientation)
 
+for x in range(5):
+	# Different motion
+	for y in range(5):
+		# Different mass of object
+		tick = 0
+
 
 for i in range(10000):
 	pybullet.stepSimulation()
