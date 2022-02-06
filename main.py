@@ -35,7 +35,7 @@ for velocity in velocities:
 			cubePos, cubeOrn = pybullet.getBasePositionAndOrientation(cubeId)
 			lastPos = cubePos;
 
-			time.sleep(1./240.)
+			time.sleep(1./960.)
 		
 		pybullet.removeBody(cubeId)
 		print("Finished simulation for 1")
