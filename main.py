@@ -13,14 +13,13 @@ pybullet.setGravity(0,0,-9.81)
 pybullet.planeId = pybullet.loadURDF("plane.urdf")
 startPos = [0,0,1]
 startOrientation = pybullet.getQuaternionFromEuler([0,0,0])
-boxId = pybullet.loadURDF("r2d2.urdf", startPos, startOrientation)
+boxId = pybullet.loadURDF("physics_block.urdf", startPos, startOrientation)
 
 
 for i in range(10000):
 	pybullet.stepSimulation()
 	tick += 1./960.;
 	time.sleep(1./960.)
-
 
 cubePos, cubeOrn = pybullet.getBasePositionAndOrientation(boxId)
 print(cubePos, cubeOrn)
