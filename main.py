@@ -39,7 +39,7 @@ for velocity in velocities:
 
 			lastPos = cubePos;
 
-			time.sleep(1./960.)
+			time.sleep(1./240.)
 		
 		pybullet.removeBody(cubeId)
 		print("Finished simulation for 1")
