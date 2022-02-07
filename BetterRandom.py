@@ -4,13 +4,17 @@ import random
 
 unseenRandoms = {}
 
-def ModifyRandomPercentage(init, percent):
+def ModifyRandomPercentage(baseNumber, percent):
 	intPercent = percent / 100
-	return init + random.randint((init * percent) * 10, -(init * percent) * 10) / 10
+	return baseNumber + random.randint((baseNumber * percent) * 10, -(baseNumber * percent) * 10) / 10
 
-def GetRandomData(init, category, percent, unscreenPercent):
-	# Random that based off of unseen variables
+def GetRandomData(baseNumber, category, percent, unscreenPercent):
+	# Random that based off of controlled and unseen variables
 	if not category in unseenRandoms:
 		unseenRandoms[category] = unscreenPercent
 
-	return ModifyRandomPercentage(ModifyRandomPercentage(init, unscreenPercent), percent)
+	return ModifyRandomPercentage(ModifyRandomPercentage(baseNumber, unscreenPercent), percent)
+
+def GetRandomDataAutoUnsceen(baseNumber, category, percent, min, max):
+	# Same idea as before but with auto-generated unseen variables
+	return GetRandomData(baseNumber, category, percent, (random.randint(min, max)/10))
