@@ -30,10 +30,13 @@ for velocity in velocities:
 
 		# Actually simulate
 		for step in range(1000):
-			deltaTime = time.time() - deltaTime
 			pybullet.stepSimulation()
+			deltaTime = time.time() - deltaTime
 
 			cubePos, cubeOrn = pybullet.getBasePositionAndOrientation(cubeId)
+
+			
+
 			lastPos = cubePos;
 
 			time.sleep(1./960.)
