@@ -1,6 +1,7 @@
 # Reference used for simulation: https://docs.google.com/document/d/10sXEhzFRSnvFcl3XxNGhnD4N2SedqwdAvK3dsihxVUA/edit#
 
 from re import L
+from struct import unpack
 import pybullet
 import time
 import pybullet_data
@@ -9,14 +10,8 @@ import math
 import csv
 import os
 
-tick = 0
-
-physicsClient = pybullet.connect(pybullet.GUI)
-pybullet.setAdditionalSearchPath(pybullet_data.getDataPath())
-pybullet.setGravity(0,0,-9.81)
-pybullet.planeId = pybullet.loadURDF("plane.urdf")
-
-# Goal velocities of ramp
+# CONFIGRUATION
+numberTrials = 2
 rotations = [30,35,40,45,50]
 
 recordedData = {}
@@ -45,10 +40,15 @@ def generatePercentInaccuracy(num, decimals=1, percentdeviate=10, percentunforse
 	actualPercent = percentdeviate/100
 	return generateRIU(num - (num * actualPercent), num + (num * actualPercent), decimals, percentunforseen)
 
+physicsClient = pybullet.connect(pybullet.GUI)
+pybullet.setAdditionalSearchPath(pybullet_data.getDataPath())
+pybullet.setGravity(0,0,-9.81)
+pybullet.planeId = pybullet.loadURDF("plane.urdf")
+
 for rotation in rotations:
-	recordedData[rotation] = {}
+	recordedData[rotation] = []
 	# Different motion
-	for i in range(5):
+	for i in range(numberTrials):
 		# Set up simulation
 		simulationStart = time.time();
 		simulationEnd = 0;
@@ -99,7 +99,33 @@ for rotation in rotations:
 		pybullet.removeBody(inclinePlaneId)
 
 		print("===TRIAL REPORT===\nSimulation Trial: {trial}.\nAngle: {angle}, Delta T: {dt}\n===END REPORT===".format(trial = i + 1, angle = rotation, dt = simulationEnd - simulationStart))
-		recordedData[rotation][i] = simulationEnd - simulationStart
+		recordedData[rotation].append(simulationEnd - simulationStart)
+
+
+# https://stackoverflow.com/questions/42486764/python-creating-a-new-file-folder-in-the-same-directory-as-the-script
+localDirectory = os.path.dirname(__file__) # directory of script
+resultsDirectory = r'{}/results'.format(localDirectory) # path to be created
+roundedSimulation = round(simulationEnd)
+csvDirectory = r'{base}/{timeStamp}.csv'.format(base=resultsDirectory, timeStamp=roundedSimulation)
+
+if not os.path.exists(resultsDirectory):
+	os.mkdir(resultsDirectory)
+
+if not os.path.exists(csvDirectory):
+	open("{}.csv".format(roundedSimulation), "x")
+
+with open("{}.csv".format(roundedSimulation), 'w') as csvfile:
+	writer = csv.writer(csvfile)
+	fields = ["Rotation"]
+	for x in range(numberTrials):
+		fields.append("Trial {number}".format(number=x + 1))
+	writer.writerow(fields)
+
+	for key in rotations:
+		row = recordedData[key]
+		row.insert(0, str(key))
+		writer.writerow(row)
+	
 
 
 
