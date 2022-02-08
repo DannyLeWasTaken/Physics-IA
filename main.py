@@ -13,8 +13,6 @@ pybullet.setAdditionalSearchPath(pybullet_data.getDataPath())
 pybullet.setGravity(0,0,-9.81)
 pybullet.planeId = pybullet.loadURDF("plane.urdf")
 
-inclinePlaneId = pybullet.loadURDF("plane.urdf")
-
 
 startPos = [0,0,1]
 startOrientation = pybullet.getQuaternionFromEuler([0,0,0])
@@ -30,7 +28,15 @@ for rotation in rotations:
 		deltaTime = time.time()
 		lastPos = startPos
 		cubeId = pybullet.loadURDF("physics_block.urdf", startPos, startOrientation)
-		pybullet.applyExternalForce(cubeId, -1, (rotation + (random.randint(0, 500)/1000), 0, 0), startPos, pybullet.WORLD_FRAME);
+		inclinePlaneId = pybullet.loadURDF("plane.urdf")
+		pybullet.applyExternalForce(cubeId, -1, (rotation + (random.randint(0, 500)/1000), 0, 0), startPos, pybullet.WORLD_FRAME)
+
+		inclineTransform = (0,0,0)
+		inclineTransform.setIdentity()
+		quatrotation = pybullet.getQuaternionFromEuler((0,rotation,0));
+
+
+		inclinePlaneId.setCenterOfMassTransform()
 
 		# Actually simulate
 		for step in range(1000):
@@ -46,6 +52,7 @@ for rotation in rotations:
 			time.sleep(1./240.)
 		
 		pybullet.removeBody(cubeId)
+		pybullet.removeBody(inclinePlaneId)
 		print("Finished simulation for 1")
 
 pybullet.disconnect()
