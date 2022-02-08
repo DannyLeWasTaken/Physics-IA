@@ -50,7 +50,7 @@ for rotation in rotations:
 
 			cubePos, cubeOrn = pybullet.getBasePositionAndOrientation(cubeId)
 
-			if simulationStep >= 500 and not forceApplied:
+			if simulationStep >= 250 and not forceApplied:
 				startPos = cubePos
 				pybullet.applyExternalForce(cubeId, -1, cubePos, (1,0,0), pybullet.WORLD_FRAME)
 				forceApplied = True
