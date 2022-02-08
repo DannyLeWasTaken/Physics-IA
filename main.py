@@ -7,6 +7,7 @@ import pybullet_data
 import random
 import math
 import csv
+import os
 
 tick = 0
 
