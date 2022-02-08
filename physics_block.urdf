@@ -2,13 +2,13 @@
 <robot name="block_2">
   <link name="block_2_base_link">
     <contact>
-      <mu value="1.2"/>
+		<contact_coefficients mu="99.99" />
     </contact>
     <inertial>
       <origin rpy="0 0 0" xyz="0 0 0"/>
       <mass value="0.1"/>
       <inertia ixx="1" ixy="0" ixz="0" iyy="1" iyz="0" izz="1"/>
-	  <mu value="1.2"/>
+	  <contact_coefficients mu="99.99" />
     </inertial>
     <visual>
       <origin rpy="0 0 0" xyz="0.0 0.0 0.0"/>
@@ -21,10 +21,10 @@
     </visual>
     <collision>
       <origin rpy="0 0 0" xyz="0.0 0.0 0.0"/>
+	  <contact_coefficients mu="99.99" />
       <geometry>
         <box size="0.1 0.1 0.1"/>
       </geometry>
-	  <contact_coefficients mu="1.20" />
     </collision>
   </link>
 </robot>
