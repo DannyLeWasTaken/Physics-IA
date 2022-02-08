@@ -10,6 +10,11 @@ import math
 import csv
 import os
 
+# DEFINE CONSTANTS
+#https://stackoverflow.com/questions/4060221/how-to-reliably-open-a-file-in-the-same-directory-as-the-currently-running-scrip
+__location__ = os.path.realpath(os.path.join(os.getcwd(), os.path.dirname(__file__)))
+
+
 # CONFIGRUATION
 numberTrials = 2
 rotations = [30,35,40,45,50]
@@ -103,8 +108,7 @@ for rotation in rotations:
 
 
 # https://stackoverflow.com/questions/42486764/python-creating-a-new-file-folder-in-the-same-directory-as-the-script
-localDirectory = os.path.dirname(__file__) # directory of script
-resultsDirectory = r'{}/results'.format(localDirectory) # path to be created
+resultsDirectory = os.path.join(__location__, 'results')
 roundedSimulation = round(simulationEnd)
 csvDirectory = r'{base}/{timeStamp}.csv'.format(base=resultsDirectory, timeStamp=roundedSimulation)
 
@@ -112,9 +116,9 @@ if not os.path.exists(resultsDirectory):
 	os.mkdir(resultsDirectory)
 
 if not os.path.exists(csvDirectory):
-	open("{}.csv".format(roundedSimulation), "x")
+	open("results\{}.csv".format(roundedSimulation), "x")
 
-with open("{}.csv".format(roundedSimulation), 'w') as csvfile:
+with open("results\{}.csv".format(roundedSimulation), 'w') as csvfile:
 	writer = csv.writer(csvfile)
 	fields = ["Rotation"]
 	for x in range(numberTrials):
