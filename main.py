@@ -27,16 +27,14 @@ for rotation in rotations:
 		# Set up simulation
 		deltaTime = time.time()
 		lastPos = startPos
+		
+		inclinePlaneId = pybullet.loadURDF("plane.urdf", (0,0,0), pybullet.getQuaternionFromEuler((0, rotation - (random.randint(-500, 500) / 100) ,0)))
+		
 		cubeId = pybullet.loadURDF("physics_block.urdf", startPos, startOrientation)
-		inclinePlaneId = pybullet.loadURDF("plane.urdf")
 		pybullet.applyExternalForce(cubeId, -1, (rotation + (random.randint(0, 500)/1000), 0, 0), startPos, pybullet.WORLD_FRAME)
 
 		inclineTransform = (0,0,0)
-		inclineTransform.setIdentity()
 		quatrotation = pybullet.getQuaternionFromEuler((0,rotation,0));
-
-
-		inclinePlaneId.setCenterOfMassTransform()
 
 		# Actually simulate
 		for step in range(1000):
