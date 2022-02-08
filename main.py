@@ -22,6 +22,9 @@ def vectorMangitudes(vec1, vec2):
 	# Determine magnitude in 3d space
 	return math.sqrt(((vec1[0] - vec2[0])**2) + ((vec1[1] - vec2[1])**2) + ((vec1[2] - vec2[2])**2))
 
+def getDegreesFromRadians(rad):
+	return rad * (math.pi/180)
+
 for rotation in rotations:
 	# Different motion
 	for i in range(5):
@@ -31,10 +34,9 @@ for rotation in rotations:
 		simulationTime = 0
 		simulationStep = 0
 		continueSimulation = True
-		maxDistanceCanTravel = 1 + (random.randint(-100, 100)/100)
-		cubePos, cubeOrn
+		maxDistanceCanTravel = 1 + (random.randint(-300, 300)/1000)
 		
-		inclineOrientation = pybullet.getQuaternionFromEuler((0, rotation * (math.pi/180), 0))
+		inclineOrientation = pybullet.getQuaternionFromEuler((0, getDegreesFromRadians(rotation), 0))
 
 		inclinePlaneId = pybullet.loadURDF("plane.urdf", (0,0,0), inclineOrientation)
 		pybullet.setCollisionFilterPair(inclinePlaneId, pybullet.planeId, -1, -1, 0)
@@ -74,6 +76,7 @@ for rotation in rotations:
 		pybullet.removeBody(cubeId)
 		pybullet.removeBody(inclinePlaneId)
 
+		print("===SIMULATION COMPLETED===\nSimulation Trial: {trial}.\nAngle: {angle}, Delta T: {dt}".format(trial = i, angle = rotation, dt = simulationEnd - simulationStart))
 
 
 pybullet.disconnect()
