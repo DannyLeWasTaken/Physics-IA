@@ -5,6 +5,7 @@ import pybullet
 import time
 import pybullet_data
 import random
+import math
 
 tick = 0
 
@@ -14,7 +15,7 @@ pybullet.setGravity(0,0,-9.81)
 pybullet.planeId = pybullet.loadURDF("plane.urdf")
 
 
-startPos = [0,0,1]
+startPos = [0,0,5]
 startOrientation = pybullet.getQuaternionFromEuler([0,0,0])
 
 # Goal velocities of ramp
@@ -28,24 +29,27 @@ for rotation in rotations:
 		deltaTime = time.time()
 		lastPos = startPos
 		
-		inclinePlaneId = pybullet.loadURDF("plane.urdf", (0,0,0), pybullet.getQuaternionFromEuler((0, rotation + (random.randint(-500, 500) / 100) ,0)))
+		inclineOrientation = pybullet.getQuaternionFromEuler((0, rotation * (math.pi/180), 0))
+
+		inclinePlaneId = pybullet.loadURDF("plane.urdf", (0,0,0), inclineOrientation)
 		pybullet.setCollisionFilterPair(inclinePlaneId, pybullet.planeId, -1, -1, 0)
 		pybullet.changeDynamics(inclinePlaneId, -1, mass=0)
 		
-		cubeId = pybullet.loadURDF("physics_block.urdf", startPos, startOrientation)
-		pybullet.applyExternalForce(cubeId, -1, (rotation + (random.randint(0, 500)/1000), 0, 0), startPos, pybullet.WORLD_FRAME)
+		cubeId = pybullet.loadURDF("physics_block.urdf", (0,0,0), inclineOrientation)
+		
+
 
 		inclineTransform = (0,0,0)
 		quatrotation = pybullet.getQuaternionFromEuler((0,rotation,0));
 
 		# Actually simulate
-		for step in range(100):
+		for step in range(500):
 			pybullet.stepSimulation()
 			deltaTime = time.time() - deltaTime
 
 			cubePos, cubeOrn = pybullet.getBasePositionAndOrientation(cubeId)
 			
-			
+
 
 			lastPos = cubePos;
 
