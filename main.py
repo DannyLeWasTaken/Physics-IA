@@ -28,7 +28,9 @@ for rotation in rotations:
 		deltaTime = time.time()
 		lastPos = startPos
 		
-		inclinePlaneId = pybullet.loadURDF("plane.urdf", (0,0,0), pybullet.getQuaternionFromEuler((0, rotation - (random.randint(-500, 500) / 100) ,0)))
+		inclinePlaneId = pybullet.loadURDF("plane.urdf", (0,0,0), pybullet.getQuaternionFromEuler((0, rotation + (random.randint(-500, 500) / 100) ,0)))
+		pybullet.setCollisionFilterPair(inclinePlaneId, pybullet.planeId, -1, -1, 0)
+		pybullet.changeDynamics(inclinePlaneId, -1, mass=0)
 		
 		cubeId = pybullet.loadURDF("physics_block.urdf", startPos, startOrientation)
 		pybullet.applyExternalForce(cubeId, -1, (rotation + (random.randint(0, 500)/1000), 0, 0), startPos, pybullet.WORLD_FRAME)
@@ -37,7 +39,7 @@ for rotation in rotations:
 		quatrotation = pybullet.getQuaternionFromEuler((0,rotation,0));
 
 		# Actually simulate
-		for step in range(1000):
+		for step in range(100):
 			pybullet.stepSimulation()
 			deltaTime = time.time() - deltaTime
 
