@@ -24,14 +24,15 @@ def vectorMangitudes(vec1, vec2):
 
 for rotation in rotations:
 	# Different motion
-	simulationStart = time.time();
 	for i in range(5):
 		# Set up simulation
-		deltaTime = time.time()
+		simulationStart = time.time();
+		simulationEnd = 0;
 		simulationTime = 0
 		simulationStep = 0
 		continueSimulation = True
 		maxDistanceCanTravel = 1 + (random.randint(-100, 100)/100)
+		cubePos, cubeOrn
 		
 		inclineOrientation = pybullet.getQuaternionFromEuler((0, rotation * (math.pi/180), 0))
 
@@ -53,7 +54,6 @@ for rotation in rotations:
 
 		# Actually simulate
 		while continueSimulation:
-			deltaTime = time.time() - deltaTime
 
 			cubePos, cubeOrn = pybullet.getBasePositionAndOrientation(cubeId)
 			
@@ -64,16 +64,16 @@ for rotation in rotations:
 			
 			if startPos != None and vectorMangitudes(startPos, cubePos) >= maxDistanceCanTravel:
 				continueSimulation = False
+				simulationEnd = time.time()
 
 			simulationStep += 1
 			simulationTime += 1./240.
 			time.sleep(1./240.)
 			pybullet.stepSimulation()
 		# Simulation stop, clean up!
-
-		
-
 		pybullet.removeBody(cubeId)
 		pybullet.removeBody(inclinePlaneId)
+
+
 
 pybullet.disconnect()
