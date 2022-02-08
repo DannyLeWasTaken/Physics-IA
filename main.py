@@ -25,13 +25,13 @@ def vectorMangitudes(vec1, vec2):
 for rotation in rotations:
 	# Different motion
 	simulationStart = time.time();
-	for i in range(1):
+	for i in range(5):
 		# Set up simulation
 		deltaTime = time.time()
 		simulationTime = 0
 		simulationStep = 0
-		forceApplied = False
 		continueSimulation = True
+		maxDistanceCanTravel = 1 + (random.randint(-100, 100)/100)
 		
 		inclineOrientation = pybullet.getQuaternionFromEuler((0, rotation * (math.pi/180), 0))
 
@@ -40,8 +40,10 @@ for rotation in rotations:
 		pybullet.changeDynamics(inclinePlaneId, -1, mass=0)
 
 		rayResult = pybullet.rayTest((-5,0,10), (-5,0,0))
+		cubeStartPos = rayResult[0][3]
+		cubeStartPos = (cubeStartPos[0], cubeStartPos[1] + 1, cubeStartPos[2])
 
-		cubeId = pybullet.loadURDF("physics_block.urdf", (-5, 0, 5), inclineOrientation)
+		cubeId = pybullet.loadURDF("physics_block.urdf", cubeStartPos, inclineOrientation)
 
 		startPos = None
 
@@ -54,23 +56,24 @@ for rotation in rotations:
 			deltaTime = time.time() - deltaTime
 
 			cubePos, cubeOrn = pybullet.getBasePositionAndOrientation(cubeId)
-			tempPos, tempOrn = pybullet.getBasePositionAndOrientation(dummyId)
-
-			if simulationStep >= 400 and forceApplied == False:
-				startPos = cubePos
-				pybullet.applyExternalForce(cubeId, -1, cubePos, (0,0,-1), pybullet.WORLD_FRAME)
-				forceApplied = True
-				print("Pushed!")
 			
-			if startPos != None and vectorMangitudes(startPos, cubePos) >= 1:
+			# Check if there is something underneath
+			rayResult = pybullet.rayTest(cubePos, (cubePos[0], cubePos[0] - 0.1, cubePos[0]))
+			if rayResult[0][0] != None and startPos == None:
+				startPos = cubePos
+			
+			if startPos != None and vectorMangitudes(startPos, cubePos) >= maxDistanceCanTravel:
 				continueSimulation = False
 
 			simulationStep += 1
 			simulationTime += 1./240.
 			time.sleep(1./240.)
 			pybullet.stepSimulation()
+		# Simulation stop, clean up!
+
+		
+
 		pybullet.removeBody(cubeId)
 		pybullet.removeBody(inclinePlaneId)
-		print("Finished simulation for 1")
 
 pybullet.disconnect()
