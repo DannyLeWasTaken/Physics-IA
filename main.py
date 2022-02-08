@@ -7,7 +7,6 @@ import pybullet_data
 import random
 import math
 import numpy as np
-import vector
 
 tick = 0
 
