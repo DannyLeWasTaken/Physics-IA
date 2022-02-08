@@ -6,7 +6,6 @@ import time
 import pybullet_data
 import random
 import math
-import numpy as np
 
 tick = 0
 
@@ -24,6 +23,23 @@ def vectorMangitudes(vec1, vec2):
 
 def getDegreesFromRadians(rad):
 	return rad * (math.pi/180)
+
+def generateRIU(min, max, decimals=1, unforseenpercent=10):
+	#generateRandomIntegerUnforseen
+	# generates a random number including an unforseen randomness to prevent predictability
+	actualPercent = unforseenpercent / 100
+	min *= decimals;
+	max *= decimals;
+	newMin = min + random.randint(-(min * actualPercent), (min * actualPercent)) 
+	newMax = max + random.randint(-(max * actualPercent), (max * actualPercent)) 
+	return random.randint(newMin, newMax) / decimals
+
+def generateInaccuracy(num, decimals=1, deviate=1, percentunforseen=10):
+	return generateRIU(num - deviate, num + deviate, decimals, percentunforseen)
+
+def generatePercentInaccuracy(num, decimals=1, percentdeviate=10, percentunforseen=10):
+	actualPercent = percentdeviate/100
+	return generateRIU(num - (num * actualPercent), num + (num * actualPercent), decimals, percentunforseen)
 
 for rotation in rotations:
 	# Different motion
