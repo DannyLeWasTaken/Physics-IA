@@ -18,8 +18,8 @@ __location__ = os.path.realpath(os.path.join(os.getcwd(), os.path.dirname(__file
 
 
 # CONFIGRUATION
-numberTrials = 2
-rotations = [20,25,30,35,40,60,80]
+numberTrials = 5
+rotations = [20,25,30,35,40,45,50,55,60,80]
 
 recordedData = {}
 
