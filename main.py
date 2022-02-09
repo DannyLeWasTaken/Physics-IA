@@ -1,5 +1,6 @@
 # Reference used for simulation: https://docs.google.com/document/d/10sXEhzFRSnvFcl3XxNGhnD4N2SedqwdAvK3dsihxVUA/edit#
 # Copper 	Cast Iron 	Clean and Dry 	1.05 	0.29
+# Weight calculated by using: https://www.industrialmetalsupply.com/weight-calculator
 
 from re import L
 from struct import unpack
