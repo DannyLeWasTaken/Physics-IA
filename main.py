@@ -64,7 +64,7 @@ for rotation in rotations:
 		continueSimulation = True
 		startPos = None
 
-		maxDistanceCanTravel = generateInaccuracy(1, 100, 0.01, 20)
+		maxDistanceCanTravel = generateInaccuracy(1, 4, 0.01, 20)
 		inclineOrientation = pybullet.getQuaternionFromEuler((0, getDegreesFromRadians( generateInaccuracy(rotation, 1, 2, 10) ), 0))
 
 		inclinePlaneId = pybullet.loadURDF("plane.urdf", (0,0,0), inclineOrientation)
