@@ -1,0 +1,7 @@
+cff-version: 1.2.0
+title: "PyBullet inclined plane simulation"
+version: 1.0
+authors:
+ - family-names: "Le"
+   given-names: "Danny"
+date-released: 2022-02-08
