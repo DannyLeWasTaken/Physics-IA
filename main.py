@@ -142,7 +142,11 @@ with open("results\{}.csv".format(roundedSimulation), 'w') as csvfile:
 		row.insert(0, str(key))
 		writer.writerow(row)
 	
+#
+with open("results\{}.csv".format(roundedSimulation), 'w') as csvfile:
+    valid_rows = [row for row in csv.reader(csvfile) if any(field.strip() for field in row)]
 
-
+with open("results\{}.csv".format(roundedSimulation), 'w') as csvfile:
+    csv.writer(csvfile).writerows(valid_rows)
 
 pybullet.disconnect()
