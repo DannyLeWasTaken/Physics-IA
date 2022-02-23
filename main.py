@@ -18,7 +18,7 @@ __location__ = os.path.realpath(os.path.join(os.getcwd(), os.path.dirname(__file
 
 
 # CONFIGRUATION
-numberTrials = 5
+numberTrials = 10
 rotations = [10,15,20,25,30,35,40,45,50,55,60,70,80]
 
 recordedData = {}
@@ -141,12 +141,5 @@ with open("results\{}.csv".format(roundedSimulation), 'w') as csvfile:
 		row = recordedData[key]
 		row.insert(0, str(key))
 		writer.writerow(row)
-	
-#
-with open("results\{}.csv".format(roundedSimulation), 'w') as csvfile:
-    valid_rows = [row for row in csv.reader(csvfile) if any(field.strip() for field in row)]
-
-with open("results\{}.csv".format(roundedSimulation), 'w') as csvfile:
-    csv.writer(csvfile).writerows(valid_rows)
 
 pybullet.disconnect()
