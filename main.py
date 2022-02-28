@@ -19,7 +19,7 @@ __location__ = os.path.realpath(os.path.join(os.getcwd(), os.path.dirname(__file
 
 # CONFIGRUATION
 numberTrials = 5
-rotations = [10,15,20,25,30,35,40,45,50,55,60,70,80]
+rotations = [20,25,30,35,40,45,50,55,60,70,80]
 
 recordedData = {}
 
