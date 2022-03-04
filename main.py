@@ -112,12 +112,12 @@ for rotation in rotations:
 		pybullet.removeBody(inclinePlaneId)
 		
 		if simulationEnd != 0:
-			print("===TRIAL REPORT===\nSimulation Trial: {trial}.\nAngle: {angle}, Delta T: {dt}\n===END REPORT===".format(trial = i + 1, angle = rotation, dt = simulationStep * 1./240.))
-			recordedData[rotation].append(simulationStep * 1./240.)
+			print("===TRIAL REPORT===\nSimulation Trial: {trial}.\nAngle: {angle}, Delta T: {dt}\n===END REPORT===".format(trial = i + 1, angle = rotation, dt = simulationTime))
+			recordedData[rotation].append(simulationTime)
 		else:
 			recordedData[rotation].append("N/A")
 
-		print("===TRIAL REPORT===\nSimulation Trial: {trial}.\nAngle: {angle}, Delta T: {dt}\n===END REPORT===".format(trial = i + 1, angle = rotation, dt = (simulationEnd != 0 and simulationStep * 1./240.) or "N/A" ))
+		print("===TRIAL REPORT===\nSimulation Trial: {trial}.\nAngle: {angle}, Delta T: {dt}\n===END REPORT===".format(trial = i + 1, angle = rotation, dt = (simulationEnd != 0 and simulationTime) or "N/A" ))
 
 
 # https://stackoverflow.com/questions/42486764/python-creating-a-new-file-folder-in-the-same-directory-as-the-script
