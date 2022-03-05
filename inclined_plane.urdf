@@ -2,7 +2,7 @@
 <robot name="plane">
   <link name="planeLink">
   <contact>
-      <lateral_friction value="0.29"/>
+      <lateral_friction value="0.145"/>
   </contact>
     <inertial>
       <origin rpy="0 0 0" xyz="0 0 0"/>

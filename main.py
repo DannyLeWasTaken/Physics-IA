@@ -17,7 +17,8 @@ import os
 __location__ = os.path.realpath(os.path.join(os.getcwd(), os.path.dirname(__file__)))
 
 
-# CONFIGRUATION
+# CONFIGRUATION'
+TIME_STEP = 1./64.
 numberTrials = 5
 rotations = [20,25,30,35,40,45,50,55,60,70,80]
 
@@ -49,6 +50,7 @@ def generatePercentInaccuracy(num, decimals=1, percentdeviate=10, percentunforse
 
 physicsClient = pybullet.connect(pybullet.GUI)
 pybullet.setAdditionalSearchPath(pybullet_data.getDataPath())
+pybullet.setTimeStep(TIME_STEP)
 pybullet.setGravity(0,0,-9.81)
 pybullet.planeId = pybullet.loadURDF("plane.urdf")
 
@@ -61,6 +63,7 @@ for rotation in rotations:
 		simulationEnd = 0;
 		simulationTime = 0
 		simulationStep = 0
+		cycleStart = 0
 		continueSimulation = True
 		startPos = None
 
@@ -104,20 +107,20 @@ for rotation in rotations:
 				simulationEnd = time.time()
 
 			simulationStep += 1
-			simulationTime += 1./240.
-			time.sleep(1./240.)
+			simulationTime += TIME_STEP
+			time.sleep(1./480.)
 			pybullet.stepSimulation()
 		# Simulation stop, clean up!
 		pybullet.removeBody(cubeId)
 		pybullet.removeBody(inclinePlaneId)
 		
 		if simulationEnd != 0:
-			print("===TRIAL REPORT===\nSimulation Trial: {trial}.\nAngle: {angle}, Delta T: {dt}\n===END REPORT===".format(trial = i + 1, angle = rotation, dt = simulationStep * 1./240.))
-			recordedData[rotation].append(simulationStep * 1./240.)
+			print("===TRIAL REPORT===\nSimulation Trial: {trial}.\nAngle: {angle}, Delta T: {dt}\n===END REPORT===".format(trial = i + 1, angle = rotation, dt = simulationTime))
+			recordedData[rotation].append(simulationTime)
 		else:
 			recordedData[rotation].append("N/A")
 
-		print("===TRIAL REPORT===\nSimulation Trial: {trial}.\nAngle: {angle}, Delta T: {dt}\n===END REPORT===".format(trial = i + 1, angle = rotation, dt = (simulationEnd != 0 and simulationStep * 1./240.) or "N/A" ))
+		print("===TRIAL REPORT===\nSimulation Trial: {trial}.\nAngle: {angle}, Delta T: {dt}\n===END REPORT===".format(trial = i + 1, angle = rotation, dt = (simulationEnd != 0 and simulationTime) or "N/A" ))
 
 
 # https://stackoverflow.com/questions/42486764/python-creating-a-new-file-folder-in-the-same-directory-as-the-script
