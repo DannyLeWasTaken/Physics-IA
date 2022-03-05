@@ -18,9 +18,9 @@ __location__ = os.path.realpath(os.path.join(os.getcwd(), os.path.dirname(__file
 
 
 # CONFIGRUATION'
-TIME_STEP = 1./128.
+TIME_STEP = 1./240.
 numberTrials = 5
-rotations = [20,25,30,35,40,45,50,55,60,70,80]
+rotations = [20,30,35,40,45,50,55,60,70,80]
 
 recordedData = {}
 
@@ -75,7 +75,7 @@ for rotation in rotations:
 		pybullet.setCollisionFilterPair(inclinePlaneId, pybullet.planeId, -1, -1, 0)
 		pybullet.changeDynamics(inclinePlaneId, -1, mass=0)
 
-		rayResult = pybullet.rayTest((-5,0,100), (-5,0,0))
+		rayResult = pybullet.rayTest((-10,0,100), (-10,0,0))
 		cubeStartPos = rayResult[0][3]
 		cubeStartPos = (cubeStartPos[0], cubeStartPos[1], cubeStartPos[2] + 0.05)
 
