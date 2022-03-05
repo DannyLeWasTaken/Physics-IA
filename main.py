@@ -22,6 +22,8 @@ TIME_STEP = 1./240.
 numberTrials = 5
 rotations = [20,30,35,40,45,50,55,60,70,80]
 REAL_TIME = False
+UP_HILL = 5
+DESIRED_DISTANCE = 1
 
 recordedData = {}
 
@@ -68,7 +70,7 @@ for rotation in rotations:
 		continueSimulation = True
 		startPos = None
 
-		maxDistanceCanTravel = generateInaccuracy(5, 4, 0.01, 20)
+		maxDistanceCanTravel = generateInaccuracy(DESIRED_DISTANCE, 4, 0.01, 20)
 		inclineOrientation = pybullet.getQuaternionFromEuler((0, getDegreesFromRadians( generateInaccuracy(rotation, 1, 2, 10) ), 0))
 
 		inclinePlaneId = pybullet.loadURDF("inclined_plane.urdf", (0,0,0), inclineOrientation)
@@ -76,9 +78,9 @@ for rotation in rotations:
 		pybullet.setCollisionFilterPair(inclinePlaneId, pybullet.planeId, -1, -1, 0)
 		pybullet.changeDynamics(inclinePlaneId, -1, mass=0)
 
-		rayResult = pybullet.rayTest((-6,0,10000), (-6,0,0))
+		rayResult = pybullet.rayTest((-UP_HILL,0,10000), (-UP_HILL,0,0))
 		cubeStartPos = rayResult[0][3]
-		cubeStartPos = (cubeStartPos[0], cubeStartPos[1], cubeStartPos[2] + 0.05)
+		cubeStartPos = (cubeStartPos[0], cubeStartPos[1], cubeStartPos[2] + 0.1)
 
 		cubeId = pybullet.loadURDF("physics_block.urdf", cubeStartPos, inclineOrientation)
 
