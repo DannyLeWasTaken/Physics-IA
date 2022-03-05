@@ -21,6 +21,7 @@ __location__ = os.path.realpath(os.path.join(os.getcwd(), os.path.dirname(__file
 TIME_STEP = 1./240.
 numberTrials = 5
 rotations = [20,30,35,40,45,50,55,60,70,80]
+REAL_TIME = False
 
 recordedData = {}
 
@@ -67,7 +68,7 @@ for rotation in rotations:
 		continueSimulation = True
 		startPos = None
 
-		maxDistanceCanTravel = generateInaccuracy(1, 4, 0.01, 20)
+		maxDistanceCanTravel = generateInaccuracy(5, 4, 0.01, 20)
 		inclineOrientation = pybullet.getQuaternionFromEuler((0, getDegreesFromRadians( generateInaccuracy(rotation, 1, 2, 10) ), 0))
 
 		inclinePlaneId = pybullet.loadURDF("inclined_plane.urdf", (0,0,0), inclineOrientation)
@@ -75,7 +76,7 @@ for rotation in rotations:
 		pybullet.setCollisionFilterPair(inclinePlaneId, pybullet.planeId, -1, -1, 0)
 		pybullet.changeDynamics(inclinePlaneId, -1, mass=0)
 
-		rayResult = pybullet.rayTest((-10,0,100), (-10,0,0))
+		rayResult = pybullet.rayTest((-6,0,10000), (-6,0,0))
 		cubeStartPos = rayResult[0][3]
 		cubeStartPos = (cubeStartPos[0], cubeStartPos[1], cubeStartPos[2] + 0.05)
 
@@ -108,8 +109,9 @@ for rotation in rotations:
 
 			simulationStep += 1
 			simulationTime += TIME_STEP
-			#time.sleep(1./480.)
 			pybullet.stepSimulation()
+			if REAL_TIME:
+				time.sleep(1./480.)
 		# Simulation stop, clean up!
 		pybullet.removeBody(cubeId)
 		pybullet.removeBody(inclinePlaneId)
