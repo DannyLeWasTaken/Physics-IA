@@ -80,7 +80,7 @@ for rotation in rotations:
 
 		rayResult = pybullet.rayTest((-UP_HILL,0,10000), (-UP_HILL,0,0))
 		cubeStartPos = rayResult[0][3]
-		cubeStartPos = (cubeStartPos[0], cubeStartPos[1], cubeStartPos[2] + 0.1)
+		cubeStartPos = (cubeStartPos[0], cubeStartPos[1], cubeStartPos[2] + 0.05)
 
 		cubeId = pybullet.loadURDF("physics_block.urdf", cubeStartPos, inclineOrientation)
 
